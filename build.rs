@@ -8,7 +8,7 @@ fn main() {
     println!("cargo:rustc-link-lib=amd_smi");
 
     let bindings = bindgen::Builder::default()
-        .header("./amdsmi.h")
+        .headers(["./amdsmi.h", "./amd_smiConfig.h"])
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate()
         .unwrap();

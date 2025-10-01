@@ -42,7 +42,7 @@
  */
 #ifndef INCLUDE_AMDSMI_H_
 #define INCLUDE_AMDSMI_H_
-
+#define ENABLE_ESMI_LIB
 /**
  * @file amdsmi.h
  * @brief AMD System Management Interface API

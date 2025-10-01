@@ -358,6 +358,10 @@ pub const AMDSMI_MAX_UTILIZATION_VALUES: u32 = 4;
 pub const AMDSMI_MAX_NUM_PM_POLICIES: u32 = 32;
 pub const MAX_AMDSMI_NAME_LENGTH: u32 = 64;
 pub const AMDSMI_DEFAULT_VARIANT: i32 = -1;
+pub const amd_smi_VERSION_MAJOR: u32 = 0;
+pub const amd_smi_VERSION_MINOR: u32 = 0;
+pub const amd_smi_VERSION_PATCH: u32 = 0;
+pub const amd_smi_VERSION_BUILD: &[u8; 2] = b"0\0";
 pub type wchar_t = ::std::os::raw::c_int;
 pub type __cfloat128 = __BindgenComplex<u128>;
 pub type _Float128 = u128;
@@ -1509,6 +1513,7 @@ pub type amdsmi_container_types_t = ::std::os::raw::c_uint;
 #[doc = "! opaque handler point to underlying implementation"]
 pub type amdsmi_processor_handle = *mut ::std::os::raw::c_void;
 pub type amdsmi_socket_handle = *mut ::std::os::raw::c_void;
+pub type amdsmi_cpusocket_handle = *mut ::std::os::raw::c_void;
 pub const processor_type_t_AMDSMI_PROCESSOR_TYPE_UNKNOWN: processor_type_t = 0;
 pub const processor_type_t_AMDSMI_PROCESSOR_TYPE_AMD_GPU: processor_type_t = 1;
 pub const processor_type_t_AMDSMI_PROCESSOR_TYPE_AMD_CPU: processor_type_t = 2;
@@ -4102,6 +4107,590 @@ const _: () = {
     ["Offset of field: amdsmi_topology_nearest_t::reserved"]
         [::std::mem::offset_of!(amdsmi_topology_nearest_t, reserved) - 264usize];
 };
+#[doc = " @brief This structure holds SMU Firmware version information."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct amdsmi_smu_fw_version_t {
+    #[doc = "!< SMU fw Debug version number"]
+    pub debug: u8,
+    #[doc = "!< SMU fw Minor version number"]
+    pub minor: u8,
+    #[doc = "!< SMU fw Major version number"]
+    pub major: u8,
+    #[doc = "!< reserved fields"]
+    pub unused: u8,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of amdsmi_smu_fw_version_t"][::std::mem::size_of::<amdsmi_smu_fw_version_t>() - 4usize];
+    ["Alignment of amdsmi_smu_fw_version_t"]
+        [::std::mem::align_of::<amdsmi_smu_fw_version_t>() - 1usize];
+    ["Offset of field: amdsmi_smu_fw_version_t::debug"]
+        [::std::mem::offset_of!(amdsmi_smu_fw_version_t, debug) - 0usize];
+    ["Offset of field: amdsmi_smu_fw_version_t::minor"]
+        [::std::mem::offset_of!(amdsmi_smu_fw_version_t, minor) - 1usize];
+    ["Offset of field: amdsmi_smu_fw_version_t::major"]
+        [::std::mem::offset_of!(amdsmi_smu_fw_version_t, major) - 2usize];
+    ["Offset of field: amdsmi_smu_fw_version_t::unused"]
+        [::std::mem::offset_of!(amdsmi_smu_fw_version_t, unused) - 3usize];
+};
+#[doc = " @brief DDR bandwidth metrics."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct amdsmi_ddr_bw_metrics_t {
+    #[doc = "!< DDR Maximum theoritical bandwidth in GB/s"]
+    pub max_bw: u32,
+    #[doc = "!< DDR bandwidth utilization in GB/s"]
+    pub utilized_bw: u32,
+    #[doc = "!< DDR bandwidth utilization in % of theoritical max"]
+    pub utilized_pct: u32,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of amdsmi_ddr_bw_metrics_t"][::std::mem::size_of::<amdsmi_ddr_bw_metrics_t>() - 12usize];
+    ["Alignment of amdsmi_ddr_bw_metrics_t"]
+        [::std::mem::align_of::<amdsmi_ddr_bw_metrics_t>() - 4usize];
+    ["Offset of field: amdsmi_ddr_bw_metrics_t::max_bw"]
+        [::std::mem::offset_of!(amdsmi_ddr_bw_metrics_t, max_bw) - 0usize];
+    ["Offset of field: amdsmi_ddr_bw_metrics_t::utilized_bw"]
+        [::std::mem::offset_of!(amdsmi_ddr_bw_metrics_t, utilized_bw) - 4usize];
+    ["Offset of field: amdsmi_ddr_bw_metrics_t::utilized_pct"]
+        [::std::mem::offset_of!(amdsmi_ddr_bw_metrics_t, utilized_pct) - 8usize];
+};
+#[doc = " @brief temperature range and refresh rate metrics of a DIMM"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct amdsmi_temp_range_refresh_rate_t {
+    pub _bitfield_align_1: [u8; 0],
+    pub _bitfield_1: __BindgenBitfieldUnit<[u8; 1usize]>,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of amdsmi_temp_range_refresh_rate_t"]
+        [::std::mem::size_of::<amdsmi_temp_range_refresh_rate_t>() - 1usize];
+    ["Alignment of amdsmi_temp_range_refresh_rate_t"]
+        [::std::mem::align_of::<amdsmi_temp_range_refresh_rate_t>() - 1usize];
+};
+impl amdsmi_temp_range_refresh_rate_t {
+    #[inline]
+    pub fn range(&self) -> u8 {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 3u8) as u8) }
+    }
+    #[inline]
+    pub fn set_range(&mut self, val: u8) {
+        unsafe {
+            let val: u8 = ::std::mem::transmute(val);
+            self._bitfield_1.set(0usize, 3u8, val as u64)
+        }
+    }
+    #[inline]
+    pub unsafe fn range_raw(this: *const Self) -> u8 {
+        unsafe {
+            ::std::mem::transmute(<__BindgenBitfieldUnit<[u8; 1usize]>>::raw_get(
+                ::std::ptr::addr_of!((*this)._bitfield_1),
+                0usize,
+                3u8,
+            ) as u8)
+        }
+    }
+    #[inline]
+    pub unsafe fn set_range_raw(this: *mut Self, val: u8) {
+        unsafe {
+            let val: u8 = ::std::mem::transmute(val);
+            <__BindgenBitfieldUnit<[u8; 1usize]>>::raw_set(
+                ::std::ptr::addr_of_mut!((*this)._bitfield_1),
+                0usize,
+                3u8,
+                val as u64,
+            )
+        }
+    }
+    #[inline]
+    pub fn ref_rate(&self) -> u8 {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(3usize, 1u8) as u8) }
+    }
+    #[inline]
+    pub fn set_ref_rate(&mut self, val: u8) {
+        unsafe {
+            let val: u8 = ::std::mem::transmute(val);
+            self._bitfield_1.set(3usize, 1u8, val as u64)
+        }
+    }
+    #[inline]
+    pub unsafe fn ref_rate_raw(this: *const Self) -> u8 {
+        unsafe {
+            ::std::mem::transmute(<__BindgenBitfieldUnit<[u8; 1usize]>>::raw_get(
+                ::std::ptr::addr_of!((*this)._bitfield_1),
+                3usize,
+                1u8,
+            ) as u8)
+        }
+    }
+    #[inline]
+    pub unsafe fn set_ref_rate_raw(this: *mut Self, val: u8) {
+        unsafe {
+            let val: u8 = ::std::mem::transmute(val);
+            <__BindgenBitfieldUnit<[u8; 1usize]>>::raw_set(
+                ::std::ptr::addr_of_mut!((*this)._bitfield_1),
+                3usize,
+                1u8,
+                val as u64,
+            )
+        }
+    }
+    #[inline]
+    pub fn new_bitfield_1(range: u8, ref_rate: u8) -> __BindgenBitfieldUnit<[u8; 1usize]> {
+        let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 1usize]> = Default::default();
+        __bindgen_bitfield_unit.set(0usize, 3u8, {
+            let range: u8 = unsafe { ::std::mem::transmute(range) };
+            range as u64
+        });
+        __bindgen_bitfield_unit.set(3usize, 1u8, {
+            let ref_rate: u8 = unsafe { ::std::mem::transmute(ref_rate) };
+            ref_rate as u64
+        });
+        __bindgen_bitfield_unit
+    }
+}
+#[doc = " @brief DIMM Power(mW), power update rate(ms) and dimm address"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct amdsmi_dimm_power_t {
+    pub _bitfield_align_1: [u16; 0],
+    pub _bitfield_1: __BindgenBitfieldUnit<[u8; 4usize]>,
+    #[doc = "!< Dimm address[7:0](8 bit data)"]
+    pub dimm_addr: u8,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of amdsmi_dimm_power_t"][::std::mem::size_of::<amdsmi_dimm_power_t>() - 6usize];
+    ["Alignment of amdsmi_dimm_power_t"][::std::mem::align_of::<amdsmi_dimm_power_t>() - 2usize];
+    ["Offset of field: amdsmi_dimm_power_t::dimm_addr"]
+        [::std::mem::offset_of!(amdsmi_dimm_power_t, dimm_addr) - 4usize];
+};
+impl amdsmi_dimm_power_t {
+    #[inline]
+    pub fn power(&self) -> u16 {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 15u8) as u16) }
+    }
+    #[inline]
+    pub fn set_power(&mut self, val: u16) {
+        unsafe {
+            let val: u16 = ::std::mem::transmute(val);
+            self._bitfield_1.set(0usize, 15u8, val as u64)
+        }
+    }
+    #[inline]
+    pub unsafe fn power_raw(this: *const Self) -> u16 {
+        unsafe {
+            ::std::mem::transmute(<__BindgenBitfieldUnit<[u8; 4usize]>>::raw_get(
+                ::std::ptr::addr_of!((*this)._bitfield_1),
+                0usize,
+                15u8,
+            ) as u16)
+        }
+    }
+    #[inline]
+    pub unsafe fn set_power_raw(this: *mut Self, val: u16) {
+        unsafe {
+            let val: u16 = ::std::mem::transmute(val);
+            <__BindgenBitfieldUnit<[u8; 4usize]>>::raw_set(
+                ::std::ptr::addr_of_mut!((*this)._bitfield_1),
+                0usize,
+                15u8,
+                val as u64,
+            )
+        }
+    }
+    #[inline]
+    pub fn update_rate(&self) -> u16 {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(16usize, 9u8) as u16) }
+    }
+    #[inline]
+    pub fn set_update_rate(&mut self, val: u16) {
+        unsafe {
+            let val: u16 = ::std::mem::transmute(val);
+            self._bitfield_1.set(16usize, 9u8, val as u64)
+        }
+    }
+    #[inline]
+    pub unsafe fn update_rate_raw(this: *const Self) -> u16 {
+        unsafe {
+            ::std::mem::transmute(<__BindgenBitfieldUnit<[u8; 4usize]>>::raw_get(
+                ::std::ptr::addr_of!((*this)._bitfield_1),
+                16usize,
+                9u8,
+            ) as u16)
+        }
+    }
+    #[inline]
+    pub unsafe fn set_update_rate_raw(this: *mut Self, val: u16) {
+        unsafe {
+            let val: u16 = ::std::mem::transmute(val);
+            <__BindgenBitfieldUnit<[u8; 4usize]>>::raw_set(
+                ::std::ptr::addr_of_mut!((*this)._bitfield_1),
+                16usize,
+                9u8,
+                val as u64,
+            )
+        }
+    }
+    #[inline]
+    pub fn new_bitfield_1(power: u16, update_rate: u16) -> __BindgenBitfieldUnit<[u8; 4usize]> {
+        let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 4usize]> = Default::default();
+        __bindgen_bitfield_unit.set(0usize, 15u8, {
+            let power: u16 = unsafe { ::std::mem::transmute(power) };
+            power as u64
+        });
+        __bindgen_bitfield_unit.set(16usize, 9u8, {
+            let update_rate: u16 = unsafe { ::std::mem::transmute(update_rate) };
+            update_rate as u64
+        });
+        __bindgen_bitfield_unit
+    }
+}
+#[doc = " @brief DIMM temperature(°C) and update rate(ms) and dimm address"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct amdsmi_dimm_thermal_t {
+    pub _bitfield_align_1: [u16; 0],
+    pub _bitfield_1: __BindgenBitfieldUnit<[u8; 4usize]>,
+    #[doc = "!< Dimm address[7:0](8 bit data)"]
+    pub dimm_addr: u8,
+    #[doc = "!< temperature in degree celcius"]
+    pub temp: f32,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of amdsmi_dimm_thermal_t"][::std::mem::size_of::<amdsmi_dimm_thermal_t>() - 12usize];
+    ["Alignment of amdsmi_dimm_thermal_t"]
+        [::std::mem::align_of::<amdsmi_dimm_thermal_t>() - 4usize];
+    ["Offset of field: amdsmi_dimm_thermal_t::dimm_addr"]
+        [::std::mem::offset_of!(amdsmi_dimm_thermal_t, dimm_addr) - 4usize];
+    ["Offset of field: amdsmi_dimm_thermal_t::temp"]
+        [::std::mem::offset_of!(amdsmi_dimm_thermal_t, temp) - 8usize];
+};
+impl amdsmi_dimm_thermal_t {
+    #[inline]
+    pub fn sensor(&self) -> u16 {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 11u8) as u16) }
+    }
+    #[inline]
+    pub fn set_sensor(&mut self, val: u16) {
+        unsafe {
+            let val: u16 = ::std::mem::transmute(val);
+            self._bitfield_1.set(0usize, 11u8, val as u64)
+        }
+    }
+    #[inline]
+    pub unsafe fn sensor_raw(this: *const Self) -> u16 {
+        unsafe {
+            ::std::mem::transmute(<__BindgenBitfieldUnit<[u8; 4usize]>>::raw_get(
+                ::std::ptr::addr_of!((*this)._bitfield_1),
+                0usize,
+                11u8,
+            ) as u16)
+        }
+    }
+    #[inline]
+    pub unsafe fn set_sensor_raw(this: *mut Self, val: u16) {
+        unsafe {
+            let val: u16 = ::std::mem::transmute(val);
+            <__BindgenBitfieldUnit<[u8; 4usize]>>::raw_set(
+                ::std::ptr::addr_of_mut!((*this)._bitfield_1),
+                0usize,
+                11u8,
+                val as u64,
+            )
+        }
+    }
+    #[inline]
+    pub fn update_rate(&self) -> u16 {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(16usize, 9u8) as u16) }
+    }
+    #[inline]
+    pub fn set_update_rate(&mut self, val: u16) {
+        unsafe {
+            let val: u16 = ::std::mem::transmute(val);
+            self._bitfield_1.set(16usize, 9u8, val as u64)
+        }
+    }
+    #[inline]
+    pub unsafe fn update_rate_raw(this: *const Self) -> u16 {
+        unsafe {
+            ::std::mem::transmute(<__BindgenBitfieldUnit<[u8; 4usize]>>::raw_get(
+                ::std::ptr::addr_of!((*this)._bitfield_1),
+                16usize,
+                9u8,
+            ) as u16)
+        }
+    }
+    #[inline]
+    pub unsafe fn set_update_rate_raw(this: *mut Self, val: u16) {
+        unsafe {
+            let val: u16 = ::std::mem::transmute(val);
+            <__BindgenBitfieldUnit<[u8; 4usize]>>::raw_set(
+                ::std::ptr::addr_of_mut!((*this)._bitfield_1),
+                16usize,
+                9u8,
+                val as u64,
+            )
+        }
+    }
+    #[inline]
+    pub fn new_bitfield_1(sensor: u16, update_rate: u16) -> __BindgenBitfieldUnit<[u8; 4usize]> {
+        let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 4usize]> = Default::default();
+        __bindgen_bitfield_unit.set(0usize, 11u8, {
+            let sensor: u16 = unsafe { ::std::mem::transmute(sensor) };
+            sensor as u64
+        });
+        __bindgen_bitfield_unit.set(16usize, 9u8, {
+            let update_rate: u16 = unsafe { ::std::mem::transmute(update_rate) };
+            update_rate as u64
+        });
+        __bindgen_bitfield_unit
+    }
+}
+#[doc = "!< Aggregate Bandwidth"]
+pub const amdsmi_io_bw_encoding_t_AGG_BW0: amdsmi_io_bw_encoding_t = 1;
+#[doc = "!< Read Bandwidth"]
+pub const amdsmi_io_bw_encoding_t_RD_BW0: amdsmi_io_bw_encoding_t = 2;
+#[doc = "!< Write Bandwdith"]
+pub const amdsmi_io_bw_encoding_t_WR_BW0: amdsmi_io_bw_encoding_t = 4;
+#[doc = " @brief xGMI Bandwidth Encoding types"]
+pub type amdsmi_io_bw_encoding_t = ::std::os::raw::c_uint;
+#[doc = " @brief LINK name and Bandwidth type Information.It contains\n link names i.e valid link names are\n \"P0\", \"P1\", \"P2\", \"P3\", \"P4\", \"G0\", \"G1\", \"G2\", \"G3\", \"G4\"\n \"G5\", \"G6\", \"G7\"\n Valid bandwidth types 1(Aggregate_BW), 2 (Read BW), 4 (Write BW)."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct amdsmi_link_id_bw_type_t {
+    #[doc = "!< Bandwidth Type Information [1, 2, 4]"]
+    pub bw_type: amdsmi_io_bw_encoding_t,
+    #[doc = "!< Link name [P0, P1, G0, G1 etc]"]
+    pub link_name: *mut ::std::os::raw::c_char,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of amdsmi_link_id_bw_type_t"]
+        [::std::mem::size_of::<amdsmi_link_id_bw_type_t>() - 16usize];
+    ["Alignment of amdsmi_link_id_bw_type_t"]
+        [::std::mem::align_of::<amdsmi_link_id_bw_type_t>() - 8usize];
+    ["Offset of field: amdsmi_link_id_bw_type_t::bw_type"]
+        [::std::mem::offset_of!(amdsmi_link_id_bw_type_t, bw_type) - 0usize];
+    ["Offset of field: amdsmi_link_id_bw_type_t::link_name"]
+        [::std::mem::offset_of!(amdsmi_link_id_bw_type_t, link_name) - 8usize];
+};
+#[doc = " @brief max and min LCLK DPM level on a given NBIO ID.\n Valid max and min DPM level values are 0 - 1."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct amdsmi_dpm_level_t {
+    #[doc = "!< Max LCLK DPM level[15:8](8 bit data)"]
+    pub max_dpm_level: u8,
+    #[doc = "!< Min LCLK DPM level[7:0](8 bit data)"]
+    pub min_dpm_level: u8,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of amdsmi_dpm_level_t"][::std::mem::size_of::<amdsmi_dpm_level_t>() - 2usize];
+    ["Alignment of amdsmi_dpm_level_t"][::std::mem::align_of::<amdsmi_dpm_level_t>() - 1usize];
+    ["Offset of field: amdsmi_dpm_level_t::max_dpm_level"]
+        [::std::mem::offset_of!(amdsmi_dpm_level_t, max_dpm_level) - 0usize];
+    ["Offset of field: amdsmi_dpm_level_t::min_dpm_level"]
+        [::std::mem::offset_of!(amdsmi_dpm_level_t, min_dpm_level) - 1usize];
+};
+#[doc = " @brief HSMP Metrics table (supported only with hsmp proto version 6)."]
+#[repr(C, packed)]
+#[derive(Debug, Copy, Clone)]
+pub struct amdsmi_hsmp_metrics_table_t {
+    pub accumulation_counter: u32,
+    pub max_socket_temperature: u32,
+    pub max_vr_temperature: u32,
+    pub max_hbm_temperature: u32,
+    pub max_socket_temperature_acc: u64,
+    pub max_vr_temperature_acc: u64,
+    pub max_hbm_temperature_acc: u64,
+    pub socket_power_limit: u32,
+    pub max_socket_power_limit: u32,
+    pub socket_power: u32,
+    pub timestamp: u64,
+    pub socket_energy_acc: u64,
+    pub ccd_energy_acc: u64,
+    pub xcd_energy_acc: u64,
+    pub aid_energy_acc: u64,
+    pub hbm_energy_acc: u64,
+    pub cclk_frequency_limit: u32,
+    pub gfxclk_frequency_limit: u32,
+    pub fclk_frequency: u32,
+    pub uclk_frequency: u32,
+    pub socclk_frequency: [u32; 4usize],
+    pub vclk_frequency: [u32; 4usize],
+    pub dclk_frequency: [u32; 4usize],
+    pub lclk_frequency: [u32; 4usize],
+    pub gfxclk_frequency_acc: [u64; 8usize],
+    pub cclk_frequency_acc: [u64; 96usize],
+    pub max_cclk_frequency: u32,
+    pub min_cclk_frequency: u32,
+    pub max_gfxclk_frequency: u32,
+    pub min_gfxclk_frequency: u32,
+    pub fclk_frequency_table: [u32; 4usize],
+    pub uclk_frequency_table: [u32; 4usize],
+    pub socclk_frequency_table: [u32; 4usize],
+    pub vclk_frequency_table: [u32; 4usize],
+    pub dclk_frequency_table: [u32; 4usize],
+    pub lclk_frequency_table: [u32; 4usize],
+    pub max_lclk_dpm_range: u32,
+    pub min_lclk_dpm_range: u32,
+    pub xgmi_width: u32,
+    pub xgmi_bitrate: u32,
+    pub xgmi_read_bandwidth_acc: [u64; 8usize],
+    pub xgmi_write_bandwidth_acc: [u64; 8usize],
+    pub socket_c0_residency: u32,
+    pub socket_gfx_busy: u32,
+    pub dram_bandwidth_utilization: u32,
+    pub socket_c0_residency_acc: u64,
+    pub socket_gfx_busy_acc: u64,
+    pub dram_bandwidth_acc: u64,
+    pub max_dram_bandwidth: u32,
+    pub dram_bandwidth_utilization_acc: u64,
+    pub pcie_bandwidth_acc: [u64; 4usize],
+    pub prochot_residency_acc: u32,
+    pub ppt_residency_acc: u32,
+    pub socket_thm_residency_acc: u32,
+    pub vr_thm_residency_acc: u32,
+    pub hbm_thm_residency_acc: u32,
+    pub spare: u32,
+    pub gfxclk_frequency: [u32; 8usize],
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of amdsmi_hsmp_metrics_table_t"]
+        [::std::mem::size_of::<amdsmi_hsmp_metrics_table_t>() - 1404usize];
+    ["Alignment of amdsmi_hsmp_metrics_table_t"]
+        [::std::mem::align_of::<amdsmi_hsmp_metrics_table_t>() - 1usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::accumulation_counter"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, accumulation_counter) - 0usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::max_socket_temperature"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, max_socket_temperature) - 4usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::max_vr_temperature"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, max_vr_temperature) - 8usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::max_hbm_temperature"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, max_hbm_temperature) - 12usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::max_socket_temperature_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, max_socket_temperature_acc) - 16usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::max_vr_temperature_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, max_vr_temperature_acc) - 24usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::max_hbm_temperature_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, max_hbm_temperature_acc) - 32usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::socket_power_limit"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, socket_power_limit) - 40usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::max_socket_power_limit"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, max_socket_power_limit) - 44usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::socket_power"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, socket_power) - 48usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::timestamp"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, timestamp) - 52usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::socket_energy_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, socket_energy_acc) - 60usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::ccd_energy_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, ccd_energy_acc) - 68usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::xcd_energy_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, xcd_energy_acc) - 76usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::aid_energy_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, aid_energy_acc) - 84usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::hbm_energy_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, hbm_energy_acc) - 92usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::cclk_frequency_limit"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, cclk_frequency_limit) - 100usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::gfxclk_frequency_limit"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, gfxclk_frequency_limit) - 104usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::fclk_frequency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, fclk_frequency) - 108usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::uclk_frequency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, uclk_frequency) - 112usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::socclk_frequency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, socclk_frequency) - 116usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::vclk_frequency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, vclk_frequency) - 132usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::dclk_frequency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, dclk_frequency) - 148usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::lclk_frequency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, lclk_frequency) - 164usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::gfxclk_frequency_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, gfxclk_frequency_acc) - 180usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::cclk_frequency_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, cclk_frequency_acc) - 244usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::max_cclk_frequency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, max_cclk_frequency) - 1012usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::min_cclk_frequency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, min_cclk_frequency) - 1016usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::max_gfxclk_frequency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, max_gfxclk_frequency) - 1020usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::min_gfxclk_frequency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, min_gfxclk_frequency) - 1024usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::fclk_frequency_table"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, fclk_frequency_table) - 1028usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::uclk_frequency_table"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, uclk_frequency_table) - 1044usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::socclk_frequency_table"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, socclk_frequency_table) - 1060usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::vclk_frequency_table"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, vclk_frequency_table) - 1076usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::dclk_frequency_table"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, dclk_frequency_table) - 1092usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::lclk_frequency_table"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, lclk_frequency_table) - 1108usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::max_lclk_dpm_range"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, max_lclk_dpm_range) - 1124usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::min_lclk_dpm_range"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, min_lclk_dpm_range) - 1128usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::xgmi_width"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, xgmi_width) - 1132usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::xgmi_bitrate"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, xgmi_bitrate) - 1136usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::xgmi_read_bandwidth_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, xgmi_read_bandwidth_acc) - 1140usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::xgmi_write_bandwidth_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, xgmi_write_bandwidth_acc) - 1204usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::socket_c0_residency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, socket_c0_residency) - 1268usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::socket_gfx_busy"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, socket_gfx_busy) - 1272usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::dram_bandwidth_utilization"][::std::mem::offset_of!(
+        amdsmi_hsmp_metrics_table_t,
+        dram_bandwidth_utilization
+    ) - 1276usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::socket_c0_residency_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, socket_c0_residency_acc) - 1280usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::socket_gfx_busy_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, socket_gfx_busy_acc) - 1288usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::dram_bandwidth_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, dram_bandwidth_acc) - 1296usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::max_dram_bandwidth"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, max_dram_bandwidth) - 1304usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::dram_bandwidth_utilization_acc"][::std::mem::offset_of!(
+        amdsmi_hsmp_metrics_table_t,
+        dram_bandwidth_utilization_acc
+    ) - 1308usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::pcie_bandwidth_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, pcie_bandwidth_acc) - 1316usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::prochot_residency_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, prochot_residency_acc) - 1348usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::ppt_residency_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, ppt_residency_acc) - 1352usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::socket_thm_residency_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, socket_thm_residency_acc) - 1356usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::vr_thm_residency_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, vr_thm_residency_acc) - 1360usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::hbm_thm_residency_acc"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, hbm_thm_residency_acc) - 1364usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::spare"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, spare) - 1368usize];
+    ["Offset of field: amdsmi_hsmp_metrics_table_t::gfxclk_frequency"]
+        [::std::mem::offset_of!(amdsmi_hsmp_metrics_table_t, gfxclk_frequency) - 1372usize];
+};
+unsafe extern "C" {
+    #[doc = " @brief hsmp frequency limit source names"]
+    pub static amdsmi_hsmp_freqlimit_src_names: [*mut ::std::os::raw::c_char; 8usize];
+}
 unsafe extern "C" {
     #[doc = "  @brief Initialize the AMD SMI library\n\n  @platform{gpu_bm_linux}  @platform{host} @platform{cpu_bm}  @platform{guest_1vf}\n  @platform{guest_mvf} @platform{guest_windows}\n\n  @details This function initializes the library and the internal data structures,\n  including those corresponding to sources of information that SMI provides.\n\n  The @p init_flags decides which type of processor\n  can be discovered by ::amdsmi_get_socket_handles(). AMDSMI_INIT_AMD_GPUS returns\n  sockets with AMD GPUS, and AMDSMI_INIT_AMD_GPUS | AMDSMI_INIT_AMD_CPUS returns\n  sockets with either AMD GPUS or CPUS.\n  Currently, only AMDSMI_INIT_AMD_GPUS is supported.\n\n  @param[in] init_flags Bit flags that tell SMI how to initialze. Values of\n  ::amdsmi_init_flags_t may be OR'd together and passed through @p init_flags\n  to modify how AMDSMI initializes.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
     pub fn amdsmi_init(init_flags: u64) -> amdsmi_status_t;
@@ -4118,6 +4707,13 @@ unsafe extern "C" {
     ) -> amdsmi_status_t;
 }
 unsafe extern "C" {
+    #[doc = "  @brief Get the list of cpu handles in the system.\n\n  @platform{cpu_bm}\n\n  @details Depends on AMDSMI_INIT_AMD_CPUS flag passed to ::amdsmi_init.\n  The processor handles can be used in other APIs to get processor detail information.\n\n  @param[in,out] cpu_count As input, the value passed\n  through this parameter is the number of ::amdsmi_processor_handle that\n  may be safely written to the memory pointed to by @p processor_handles. This is the\n  limit on how many processor handles will be written to @p processor_handles. On return, @p\n  socket_count will contain the number of processor handles written to @p processor_handles,\n  or the number of processor handles that could have been written if enough memory had been\n  provided.\n  If @p processor_handles is NULL, as output, @p cpu_count will contain\n  how many processors are available to read in the system.\n\n  @param[in,out] socket_handles A pointer to a block of memory to which the\n  ::amdsmi_processor_handle values will be written. This value may be NULL.\n  In this case, this function can be used to query how many processors are\n  available to read in the system.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_handles(
+        cpu_count: *mut u32,
+        processor_handles: *mut amdsmi_processor_handle,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
     #[doc = "  @brief Get information about the given socket\n\n  @platform{gpu_bm_linux}  @platform{host}  @platform{guest_1vf}\n  @platform{guest_mvf} @platform{guest_windows}\n\n  @details This function retrieves socket information. The @p socket_handle must\n  be provided to retrieve the Socket ID.\n\n  @param[in] socket_handle a socket handle\n\n  @param[out] name The id of the socket.\n\n  @param[in] len the length of the caller provided buffer @p name.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
     pub fn amdsmi_get_socket_info(
         socket_handle: amdsmi_socket_handle,
@@ -4126,10 +4722,44 @@ unsafe extern "C" {
     ) -> amdsmi_status_t;
 }
 unsafe extern "C" {
+    #[doc = "  @brief Get information about the given processor\n\n  @platform{cpu_bm}\n\n  @details This function retrieves processor information. The @p processor_handle must\n  be provided to retrieve the processor ID.\n\n  @param[in] processor_handle a processor handle\n\n  @param[out] name The id of the processor.\n\n  @param[in] len the length of the caller provided buffer @p name.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_processor_info(
+        processor_handle: amdsmi_processor_handle,
+        len: usize,
+        name: *mut ::std::os::raw::c_char,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get respective processor counts from the processor handles\n\n  @platform{cpu_bm}\n\n  @details This function retrieves respective processor counts information.\n  The @p processor_handle must be provided to retrieve the processor ID.\n\n  @param[in] processor_handles A pointer to a block of memory to which the\n  ::amdsmi_processor_handle values will be written. This value may be NULL.\n\n  @param[in] processor_count total processor count per socket\n\n  @param[out] nr_cpusockets Total number of cpu sockets\n\n  @param[out] nr_cpucores Total number of cpu cores\n\n  @param[out] nr_gpus Total number of gpu devices\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_processor_count_from_handles(
+        processor_handles: *mut amdsmi_processor_handle,
+        processor_count: *mut u32,
+        nr_cpusockets: *mut u32,
+        nr_cpucores: *mut u32,
+        nr_gpus: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get processor list as per processor type\n\n  @platform{cpu_bm}\n\n  @details This function retrieves processor list as per the processor type\n  from the total processor handles list.\n  The @p list of processor_handles and processor type must be provided.\n\n  @param[in] socket_handle socket handle\n\n  @param[in] processor_type processor type\n\n  @param[out] processor_handles list of processor handles as per processor type\n\n  @param[out] processor_count processor count as per processor type selected\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_processor_handles_by_type(
+        socket_handle: amdsmi_socket_handle,
+        processor_type: processor_type_t,
+        processor_handles: *mut amdsmi_processor_handle,
+        processor_count: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
     #[doc = "  @brief Get the list of the processor handles associated to a socket.\n\n  @platform{gpu_bm_linux}  @platform{host} @platform{guest_1vf}\n  @platform{guest_mvf} @platform{guest_windows}\n\n  @details This function retrieves the processor handles of a socket. The\n  @p socket_handle must be provided for the processor. A socket may have mulitple different\n  type processors: An APU on a socket have both CPUs and GPUs.\n  Currently, only AMD GPUs are supported.\n\n  The number of processor count is returned through @p processor_count\n  if @p processor_handles is NULL. Then the number of @p processor_count can be pass\n  as input to retrieval all processors on the socket to @p processor_handles.\n\n  @param[in] socket_handle The socket to query\n\n  @param[in,out] processor_count As input, the value passed\n  through this parameter is the number of ::amdsmi_processor_handle's that\n  may be safely written to the memory pointed to by @p processor_handles. This is the\n  limit on how many processor handles will be written to @p processor_handles. On return, @p\n  processor_count will contain the number of processor handles written to @p processor_handles,\n  or the number of processor handles that could have been written if enough memory had been\n  provided.\n  If @p processor_handles is NULL, as output, @p processor_count will contain\n  how many processors are available to read for the socket.\n\n  @param[in,out] processor_handles A pointer to a block of memory to which the\n  ::amdsmi_processor_handle values will be written. This value may be NULL.\n  In this case, this function can be used to query how many processors are\n  available to read.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
     pub fn amdsmi_get_processor_handles(
         socket_handle: amdsmi_socket_handle,
         processor_count: *mut u32,
+        processor_handles: *mut amdsmi_processor_handle,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get the list of the cpu core handles in a system.\n\n  @platform{cpu_bm}\n\n  @details This function retrieves the cpu core handles of a system.\n  @param[in,out] cores_count As input, the value passed\n  through this parameter is the number of ::amdsmi_processor_handle's that\n  may be safely written to the memory pointed to by @p processor_handles. This is the\n  limit on how many core handles will be written to @p processor_handles. On return, @p\n  cores_count will contain the number of core processor handles written to @p processor_handles,\n  or the number of core processor handles that could have been written if enough memory had been\n  provided.\n  If @p processor_handles is NULL, as output, @p processor_count will contain\n  how many cpu cores are available to read in the system.\n\n  @param[in,out] processor_handles A pointer to a block of memory to which the\n  ::amdsmi_processor_handle values will be written. This value may be NULL.\n  In this case, this function can be used to query how many processors are\n  available to read.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpucore_handles(
+        cores_count: *mut u32,
         processor_handles: *mut amdsmi_processor_handle,
     ) -> amdsmi_status_t;
 }
@@ -4968,5 +5598,302 @@ unsafe extern "C" {
         processor_handle: amdsmi_processor_handle,
         link_type: amdsmi_link_type_t,
         topology_nearest_info: *mut amdsmi_topology_nearest_t,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get the core energy for a given core.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu core which to query\n\n  @param[in,out]    penergy - Input buffer to return the core energy\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_core_energy(
+        processor_handle: amdsmi_processor_handle,
+        penergy: *mut u64,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get the socket energy for a given socket.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]    penergy - Input buffer to return the socket energy\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_socket_energy(
+        processor_handle: amdsmi_processor_handle,
+        penergy: *mut u64,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get Number of threads Per Core.\n\n  @platform{cpu_bm}\n\n  @param[in,out]    threads_per_core - Input buffer to return the Number of threads Per Core\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_threads_per_core(threads_per_core: *mut u32) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get SMU Firmware Version.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in,out]    amdsmi_smu_fw - Input buffer to return the firmware version\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_smu_fw_version(
+        processor_handle: amdsmi_processor_handle,
+        amdsmi_smu_fw: *mut amdsmi_smu_fw_version_t,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get HSMP protocol Version.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in,out]    proto_ver - Input buffer to return the protocol version\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_hsmp_proto_ver(
+        processor_handle: amdsmi_processor_handle,
+        proto_ver: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get normalized status of the processor's PROCHOT status.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]    prochot - Input buffer to return the procohot status.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_prochot_status(
+        processor_handle: amdsmi_processor_handle,
+        prochot: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get Data fabric clock and Memory clock in MHz.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]    fclk - Input buffer to return fclk\n\n  @param[in,out]    mclk - Input buffer to return mclk\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_fclk_mclk(
+        processor_handle: amdsmi_processor_handle,
+        fclk: *mut u32,
+        mclk: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get core clock in MHz.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]    cclk - Input buffer to return core clock\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_cclk_limit(
+        processor_handle: amdsmi_processor_handle,
+        cclk: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get current active frequency limit of the socket.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]    freq - Input buffer to return frequency value in MHz\n\n  @param[in,out]    src_type - Input buffer to return frequency source name\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_socket_current_active_freq_limit(
+        processor_handle: amdsmi_processor_handle,
+        freq: *mut u16,
+        src_type: *mut *mut ::std::os::raw::c_char,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get socket frequency range.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]    fmax - Input buffer to return maximum frequency\n\n  @param[in,out]    fmin - Input buffer to return minimum frequency\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_socket_freq_range(
+        processor_handle: amdsmi_processor_handle,
+        fmax: *mut u16,
+        fmin: *mut u16,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get socket frequency limit of the core.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu core which to query\n\n  @param[in,out]    freq - Input buffer to return frequency.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_core_current_freq_limit(
+        processor_handle: amdsmi_processor_handle,
+        freq: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get the socket power.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]    ppower - Input buffer to return socket power\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_socket_power(
+        processor_handle: amdsmi_processor_handle,
+        ppower: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get the socket power cap.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]    pcap - Input buffer to return power cap.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_socket_power_cap(
+        processor_handle: amdsmi_processor_handle,
+        pcap: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get the maximum power cap value for a given socket.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]    pmax - Input buffer to return maximum power limit value\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_socket_power_cap_max(
+        processor_handle: amdsmi_processor_handle,
+        pmax: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get the SVI based power telemetry for all rails.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]    power - Input buffer to return svi based power value\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_pwr_svi_telemetry_all_rails(
+        processor_handle: amdsmi_processor_handle,
+        power: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Set the power cap value for a given socket.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in]\t\tpower - Input power limit value\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_set_cpu_socket_power_cap(
+        processor_handle: amdsmi_processor_handle,
+        pcap: u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Set the power efficiency profile policy.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in]\t\tmode - mode to be set\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_set_cpu_pwr_efficiency_mode(
+        processor_handle: amdsmi_processor_handle,
+        mode: u8,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get the core boost limit.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu core which to query\n\n  @param[in,out]\tpboostlimit - Input buffer to fill the boostlimit value\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_core_boostlimit(
+        processor_handle: amdsmi_processor_handle,
+        pboostlimit: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get the socket c0 residency.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]\tpc0_residency - Input buffer to fill the c0 residency value\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_socket_c0_residency(
+        processor_handle: amdsmi_processor_handle,
+        pc0_residency: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Set the core boostlimit value.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu core which to query\n\n  @param[in]\t\tboostlimit - boostlimit value to be set\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_set_cpu_core_boostlimit(
+        processor_handle: amdsmi_processor_handle,
+        boostlimit: u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Set the socket boostlimit value.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in]\t\tboostlimit - boostlimit value to be set\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_set_cpu_socket_boostlimit(
+        processor_handle: amdsmi_processor_handle,
+        boostlimit: u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get the DDR bandwidth data.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in,out]\tddr_bw - Input buffer to fill ddr bandwidth data\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_ddr_bw(
+        processor_handle: amdsmi_processor_handle,
+        ddr_bw: *mut amdsmi_ddr_bw_metrics_t,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get socket temperature.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]\tptmon - Input buffer to fill temperature value\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_socket_temperature(
+        processor_handle: amdsmi_processor_handle,
+        ptmon: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get DIMM temperature range and refresh rate.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in]\t\tdimm_addr - DIMM address\n  @param[in,out]\trate - Input buffer to fill temperature range and refresh rate value\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_dimm_temp_range_and_refresh_rate(
+        processor_handle: amdsmi_processor_handle,
+        dimm_addr: u8,
+        rate: *mut amdsmi_temp_range_refresh_rate_t,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get DIMM power consumption.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in]\t\tdimm_addr - DIMM address\n  @param[in,out]\trate - Input buffer to fill power consumption value\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_dimm_power_consumption(
+        processor_handle: amdsmi_processor_handle,
+        dimm_addr: u8,
+        dimm_pow: *mut amdsmi_dimm_power_t,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get DIMM thermal sensor value.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in]\t\tdimm_addr - DIMM address\n  @param[in,out]\tdimm_temp - Input buffer to fill temperature value\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_dimm_thermal_sensor(
+        processor_handle: amdsmi_processor_handle,
+        dimm_addr: u8,
+        dimm_temp: *mut amdsmi_dimm_thermal_t,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Set xgmi width.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in]\t\tmin - Minimum xgmi width to be set\n  @param[in]\t\tmax - maximum xgmi width to be set\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_set_cpu_xgmi_width(
+        processor_handle: amdsmi_processor_handle,
+        min: u8,
+        max: u8,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Set gmi3 link width range.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in]\t\tmin_link_width - minimum link width to be set.\n  @param[in]\t\tmax_link_width - maximum link width to be set.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_set_cpu_gmi3_link_width_range(
+        processor_handle: amdsmi_processor_handle,
+        min_link_width: u8,
+        max_link_width: u8,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Enable APB.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_cpu_apb_enable(processor_handle: amdsmi_processor_handle) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Disable APB.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in]\t\tpstate - pstate value to be set\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_cpu_apb_disable(
+        processor_handle: amdsmi_processor_handle,
+        pstate: u8,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Set NBIO lclk dpm level value.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in]\t\tnbio_id - nbio index\n  @param[in]\t\tmin - minimum value to be set\n  @param[in]\t\tmax - maximum value to be set\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_set_cpu_socket_lclk_dpm_level(
+        processor_handle: amdsmi_processor_handle,
+        nbio_id: u8,
+        min: u8,
+        max: u8,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get NBIO LCLK dpm level.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in]\t\tnbio_id - nbio index\n  @param[in,out]\tnbio - Input buffer to fill lclk dpm level\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_socket_lclk_dpm_level(
+        processor_handle: amdsmi_processor_handle,
+        nbio_id: u8,
+        nbio: *mut amdsmi_dpm_level_t,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Set pcie link rate.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in]\t\trate_ctrl - rate control value to be set.\n  @param[in,out]\tprev_mode - Input buffer to fill previous rate control value.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_set_cpu_pcie_link_rate(
+        processor_handle: amdsmi_processor_handle,
+        rate_ctrl: u8,
+        prev_mode: *mut u8,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Set df pstate range.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in]\t\tmax_pstate - maximum pstate value to be set\n  @param[in]\t\tmin_pstate - minimum pstate value to be set\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_set_cpu_df_pstate_range(
+        processor_handle: amdsmi_processor_handle,
+        max_pstate: u8,
+        min_pstate: u8,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get current input output bandwidth.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in]\t\tlink - link id and bw type to which io bandwidth to be obtained\n  @param[in,out]\tio_bw - Input buffer to fill bandwidth data\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_current_io_bandwidth(
+        processor_handle: amdsmi_processor_handle,
+        link: amdsmi_link_id_bw_type_t,
+        io_bw: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get current input output bandwidth.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in]\t\tlink - link id and bw type to which xgmi bandwidth to be obtained\n  @param[in,out]\txgmi_bw - Input buffer to fill bandwidth data\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_current_xgmi_bw(
+        processor_handle: amdsmi_processor_handle,
+        link: amdsmi_link_id_bw_type_t,
+        xgmi_bw: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get HSMP metrics table version\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in,out]  metrics_version input buffer to return the HSMP metrics table version.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_hsmp_metrics_table_version(
+        processor_handle: amdsmi_processor_handle,
+        metrics_version: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get HSMP metrics table\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n  @param[in,out]  metrics_table input buffer to return the HSMP metrics table.\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_hsmp_metrics_table(
+        processor_handle: amdsmi_processor_handle,
+        metrics_table: *mut amdsmi_hsmp_metrics_table_t,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get first online core on socket.\n\n  @platform{cpu_bm}\n\n  @param[in]      processor_handle Cpu socket which to query\n\n  @param[in,out]\tpcore_ind - Input buffer to fill first online core on socket data\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_first_online_core_on_cpu_socket(
+        processor_handle: amdsmi_processor_handle,
+        pcore_ind: *mut u32,
+    ) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get CPU family.\n\n  @param[in,out]\tcpu_family - Input buffer to return the cpu family\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_family(cpu_family: *mut u32) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get CPU model.\n\n  @param[in,out]\tcpu_model - Input buffer to return the cpu model\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_cpu_model(cpu_model: *mut u32) -> amdsmi_status_t;
+}
+unsafe extern "C" {
+    #[doc = "  @brief Get a description of provided AMDSMI error status for esmi errors.\n\n  @platform{cpu_bm}\n\n  @details Set the provided pointer to a const char *, @p status_string, to\n  a string containing a description of the provided error code @p status.\n\n  @param[in]    status - The error status for which a description is desired.\n\n  @param[in,out]    status_string - A pointer to a const char * which will be made\n  to point to a description of the provided error code\n\n  @return ::amdsmi_status_t | ::AMDSMI_STATUS_SUCCESS on success, non-zero on fail"]
+    pub fn amdsmi_get_esmi_err_msg(
+        status: amdsmi_status_t,
+        status_string: *mut *const ::std::os::raw::c_char,
     ) -> amdsmi_status_t;
 }
