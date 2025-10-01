@@ -4,7 +4,7 @@ fn main() {
     if env::var("DOCS_RS").is_ok() {
         return;
     }
-    println!(r"cargo:rustc-link-search=/opt/rocm/lib");
+    
     println!("cargo:rustc-link-lib=amd_smi");
 
     let bindings = bindgen::Builder::default()

@@ -1,23 +1,23 @@
 /*
- * Copyright (c) Advanced Micro Devices, Inc. All rights reserved.
+ * Copyright 2014 Advanced Micro Devices, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 
 #ifndef KFD_IOCTL_H_INCLUDED
@@ -1612,10 +1612,10 @@ enum kfd_ioctl_pc_sample_type {
 
 struct kfd_pc_sample_info {
   __u64 interval;      /* [IN] if PCS_TYPE_INTERVAL_US: sample interval in us
-                        * if PCS_TYPE_CLOCK_CYCLES: sample interval in graphics core clk cycles
-                        * if PCS_TYPE_INSTRUCTIONS: sample interval in instructions issued by
-                        * graphics compute units
-                        */
+              * if PCS_TYPE_CLOCK_CYCLES: sample interval in graphics core clk cycles
+              * if PCS_TYPE_INSTRUCTIONS: sample interval in instructions issued by
+              * graphics compute units
+              */
   __u64 interval_min;  /* [OUT] */
   __u64 interval_max;  /* [OUT] */
   __u64 flags;         /* [OUT] indicate potential restrictions e.g FLAG_POWER_OF_2 */
@@ -1698,23 +1698,24 @@ struct kfd_ioctl_pc_sample_args {
 #define AMDKFD_IOC_SET_TRAP_HANDLER    \
     AMDKFD_IOW(0x13, struct kfd_ioctl_set_trap_handler_args)
 
-#define AMDKFD_IOC_DBG_REGISTER_DEPRECATED  \
-    AMDKFD_IOW(0x0D, struct kfd_ioctl_dbg_register_args)
+#define AMDKFD_IOC_GET_PROCESS_APERTURES_NEW  \
+    AMDKFD_IOWR(0x14,    \
+      struct kfd_ioctl_get_process_apertures_new_args)
 
-#define AMDKFD_IOC_DBG_UNREGISTER_DEPRECATED  \
-    AMDKFD_IOW(0x0E, struct kfd_ioctl_dbg_unregister_args)
+#define AMDKFD_IOC_ACQUIRE_VM      \
+    AMDKFD_IOW(0x15, struct kfd_ioctl_acquire_vm_args)
 
-#define AMDKFD_IOC_DBG_ADDRESS_WATCH_DEPRECATED  \
-    AMDKFD_IOW(0x0F, struct kfd_ioctl_dbg_address_watch_args)
+#define AMDKFD_IOC_ALLOC_MEMORY_OF_GPU    \
+    AMDKFD_IOWR(0x16, struct kfd_ioctl_alloc_memory_of_gpu_args)
 
-#define AMDKFD_IOC_DBG_WAVE_CONTROL_DEPRECATED  \
-    AMDKFD_IOW(0x10, struct kfd_ioctl_dbg_wave_control_args)
+#define AMDKFD_IOC_FREE_MEMORY_OF_GPU    \
+    AMDKFD_IOW(0x17, struct kfd_ioctl_free_memory_of_gpu_args)
 
 #define AMDKFD_IOC_MAP_MEMORY_TO_GPU    \
     AMDKFD_IOWR(0x18, struct kfd_ioctl_map_memory_to_gpu_args)
 
-#define AMDKFD_IOC_GET_TILE_CONFIG                                      \
-    AMDKFD_IOWR(0x12, struct kfd_ioctl_get_tile_config_args)
+#define AMDKFD_IOC_UNMAP_MEMORY_FROM_GPU  \
+    AMDKFD_IOWR(0x19, struct kfd_ioctl_unmap_memory_from_gpu_args)
 
 #define AMDKFD_IOC_SET_CU_MASK    \
     AMDKFD_IOW(0x1A, struct kfd_ioctl_set_cu_mask_args)
@@ -1754,26 +1755,6 @@ struct kfd_ioctl_pc_sample_args {
 #define AMDKFD_IOC_DBG_TRAP      \
     AMDKFD_IOWR(0x26, struct kfd_ioctl_dbg_trap_args)
 
-#define AMDKFD_IOC_SVM  AMDKFD_IOWR(0x20, struct kfd_ioctl_svm_args)
-
-#define AMDKFD_IOC_SET_XNACK_MODE    \
-    AMDKFD_IOWR(0x21, struct kfd_ioctl_set_xnack_mode_args)
-
-#define AMDKFD_IOC_CRIU_OP      \
-    AMDKFD_IOWR(0x22, struct kfd_ioctl_criu_args)
-
-#define AMDKFD_IOC_AVAILABLE_MEMORY    \
-    AMDKFD_IOWR(0x23, struct kfd_ioctl_get_available_memory_args)
-
-#define AMDKFD_IOC_EXPORT_DMABUF    \
-    AMDKFD_IOWR(0x24, struct kfd_ioctl_export_dmabuf_args)
-
-#define AMDKFD_IOC_RUNTIME_ENABLE    \
-    AMDKFD_IOWR(0x25, struct kfd_ioctl_runtime_enable_args)
-
-#define AMDKFD_IOC_DBG_TRAP      \
-    AMDKFD_IOWR(0x26, struct kfd_ioctl_dbg_trap_args)
-
 #define AMDKFD_COMMAND_START    0x01
 #define AMDKFD_COMMAND_END    0x27
 
@@ -1785,7 +1766,7 @@ struct kfd_ioctl_pc_sample_args {
     AMDKFD_IOWR(0x81, struct kfd_ioctl_ipc_export_handle_args)
 
 #define AMDKFD_IOC_DBG_TRAP_DEPRECATED                  \
-                AMDKFD_IOWR(0x82, struct kfd_ioctl_dbg_trap_args_deprecated)
+        AMDKFD_IOWR(0x82, struct kfd_ioctl_dbg_trap_args_deprecated)
 
 #define AMDKFD_IOC_CROSS_MEMORY_COPY_DEPRECATED  \
     AMDKFD_IOWR(0x83, struct kfd_ioctl_cross_memory_copy_deprecated_args)
